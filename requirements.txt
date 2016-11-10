@@ -10,3 +10,4 @@ flask-babel==0.8
 flup
 pydocumentdb>=1.0.0
 m3u8>=0.3.0
+schedule>=0.3.2
