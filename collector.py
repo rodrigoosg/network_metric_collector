@@ -2,13 +2,15 @@
 
 from nmc.procnetdev import ProcNetDev
 from nmc.config import Config
-import time
 from time import gmtime, strftime
+import time
+import socket
 import sys
 import schedule
 import pydocumentdb.document_client as document_client
+import uuid
 
-def create(timestamp, metric, recreate):
+def create(datetime, metric, recreate):
 	# Get DB config
 	config = Config()
 
@@ -40,9 +42,11 @@ def create(timestamp, metric, recreate):
 
 	# Create document
 	document = client.CreateDocument(collection['_self'],
-		{'id': str(round(time.time(),0)),
-		 'timestamp': timestamp,
+		{'id': str(uuid.uuid1()),
+		 'timestamp': time.time(),
+		 'datetime': datetime,
 		 'value': metric,
+		 'hostname': socket.gethostname(),
 		 'sacleset': config.VMSS,
 		 'name': config.DOCUMENTDB_DOCUMENT 
 		})
